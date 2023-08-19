@@ -1,13 +1,14 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
-import * as fs from "fs";
 import path = require('path');
+import * as http from "http";
 
 export function activate(context: vscode.ExtensionContext, webview: vscode.Webview, extensionUri: vscode.Uri) {
 	let storeData;
 
 	let onSendCodes = vscode.commands.registerCommand('with-express.sendcode', async () => {
 		vscode.window.showInformationMessage('send code!');
+
 	});
 
 	let onReciveCodes = vscode.commands.registerCommand('with-express.recivecode', async () => {
@@ -23,20 +24,16 @@ export function activate(context: vscode.ExtensionContext, webview: vscode.Webvi
 		const onDiskPathGetJs = vscode.Uri.joinPath(context.extensionUri, 'media', 'main.js');
 		const script = panel.webview.asWebviewUri(onDiskPathGetJs);
 
-
-		// const code = await axios.get("http://192.168.1.217:1137");
-		let code = { data: "one" };
-		panel.webview.html = getWebviewContent(code.data, script);
+		panel.webview.html = getWebviewContent(script);
 	});
 
 	context.subscriptions.push(onSendCodes);
 	context.subscriptions.push(onReciveCodes);
 }
 
-function getWebviewContent(code: any, script: any) {
+function getWebviewContent(script: any) {
 
 	const nonce = getNonce();
-	console.log(code);
 	return `<!DOCTYPE html>
 	<html lang="en">
 	
@@ -70,13 +67,16 @@ function getWebviewContent(code: any, script: any) {
 			<h1 id="insert">Insert Code </h1>
 		
 			<input data-vscode-context='{"webviewSection": "editor", "preventDefaultContextMenuItems": true}' type="text" name="code-input" id="get-inserted-code" />
-        	<button id="checkCodeAndProvideCode" onClick="${getFetchData(9435)}">Get Code</button>
+        	<button id="checkCodeAndProvideCode">Get Code</button>
 		</div>
 
 		
 		
 		<h1 id="code-display-section"></h1>
+		<h3 id="send-code-display-section">Dipslaying Code</h3>
+		
 
+		<script nonce="${nonce}" src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script nonce="${nonce}" src="${script}"></script>
 	</body>
 	
@@ -86,10 +86,6 @@ function getWebviewContent(code: any, script: any) {
 // This method is called when your extension is deactivated
 export function deactivate() { }
 
-async function getFetchData(code: any){
-	let data = await axios.get(`http://192.168.1.217:${code}`);
-	console.log(data);
-}
 
 function getNonce() {
 	let text = '';
