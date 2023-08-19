@@ -33,7 +33,6 @@ export function activate(context: vscode.ExtensionContext, webview: vscode.Webvi
 		} else {
 			vscode.window.showInformationMessage("please select the text");
 		}
-
 	});
 
 	let onReciveCodes = vscode.commands.registerCommand('with-express.recivecode', async () => {
@@ -47,16 +46,19 @@ export function activate(context: vscode.ExtensionContext, webview: vscode.Webvi
 		);
 
 		const onDiskPathGetJs = vscode.Uri.joinPath(context.extensionUri, 'media', 'main.js');
-		const script = panel.webview.asWebviewUri(onDiskPathGetJs);
+		const onDiskpathGetCss = vscode.Uri.joinPath(context.extensionUri, "media", "vscode.css");
 
-		panel.webview.html = getWebviewContent(script);
+		const script = panel.webview.asWebviewUri(onDiskPathGetJs);
+		const vscodeCss = panel.webview.asWebviewUri(onDiskpathGetCss);
+
+		panel.webview.html = getWebviewContent(script, vscodeCss);
 	});
 
 	context.subscriptions.push(onSendCodes);
 	context.subscriptions.push(onReciveCodes);
 }
 
-function getWebviewContent(script: any) {
+function getWebviewContent(script: any, vscodeCss: any) {
 
 	const nonce = getNonce();
 	return `<!DOCTYPE html>
@@ -66,6 +68,7 @@ function getWebviewContent(script: any) {
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Document</title>
+		<link rel="stylesheet" ref=${vscodeCss}>
 		<style>
 			#get-code {
 				width: 90%;
