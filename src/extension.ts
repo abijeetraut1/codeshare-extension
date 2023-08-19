@@ -3,11 +3,36 @@ import axios from 'axios';
 import path = require('path');
 import * as http from "http";
 
-export function activate(context: vscode.ExtensionContext, webview: vscode.Webview, extensionUri: vscode.Uri) {
-	let storeData;
+const ip = '127.155.101.1';
+const min = 1000;
+const max = 9999;
 
+export function activate(context: vscode.ExtensionContext, webview: vscode.Webview, extensionUri: vscode.Uri) {
 	let onSendCodes = vscode.commands.registerCommand('with-express.sendcode', async () => {
-		vscode.window.showInformationMessage('send code!');
+
+		const editor = vscode.window.activeTextEditor;
+		if (editor) {
+			const selection = editor.selection;
+			const selectedText = editor.document.getText(selection);
+
+			vscode.window.showInformationMessage(`Selected Text: ${selectedText}`);
+			const port = Math.floor(Math.random() * (max - min + 1)) + min;
+			const server = http.createServer((req, res) => {
+				res.setHeader('Access-Control-Allow-Origin', '*');
+				res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+				res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+				res.writeHead(200);
+				res.end(selectedText);
+			});
+
+			server.listen(port, ip, () => {
+				vscode.window.showInformationMessage(`code : ${port}`);
+				console.log(`Server is running at http://${ip}:${port}/`);
+			});
+		} else {
+			vscode.window.showInformationMessage("please select the text");
+		}
 
 	});
 
@@ -73,6 +98,7 @@ function getWebviewContent(script: any) {
 		
 		
 		<h1 id="code-display-section"></h1>
+
 		<h3 id="send-code-display-section">Dipslaying Code</h3>
 		
 

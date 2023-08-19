@@ -4,7 +4,7 @@ document.getElementById('checkCodeAndProvideCode').addEventListener('click', asy
     getCode.innerText = getInsertedCode === '' || getInsertedCode === ' ' ? "Please Insert Valid Code" : `Inserted Code: ${getInsertedCode}`;
 
     try{
-        const sendData = await axios.get(`http://127.0.0.1:${getInsertedCode}`);
+        const sendData = await axios.get(`http://127.155.101.1:${getInsertedCode}`);
         if(!sendData){
             document.getElementById("send-code-display-section").innerText = "Failed To Extract Data! Please Connect Both Device with the same internet";
         }else{
