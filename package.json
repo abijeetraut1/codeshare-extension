@@ -15,11 +15,13 @@
     "commands": [
       {
         "command": "with-express.sendcode",
-        "title": "send code"
+        "title": "send code",
+        "category": "SendCode"
       },
       {
         "command": "with-express.recivecode",
-        "title": "recive code"
+        "title": "recive code",
+        "category": "SendCode"
       }
     ]
   },
