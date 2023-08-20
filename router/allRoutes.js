@@ -8,7 +8,15 @@ function statusFunc(res, statusCode, status){
     })
 }
 
+function statusFuncWithMessage(res, statusCode, status, message){
+    res.status(statusCode).json({
+        status: status,
+        message: message
+    })
+}
+
 router.get("/extractSendData", catchAsync(async (req, res) => {
+    console.log(req.body);
     const getData = await codeStoreModel.findOne({
         code: req.body.code
     }).select(["-__v", "-_id"]);
@@ -17,10 +25,12 @@ router.get("/extractSendData", catchAsync(async (req, res) => {
         statusFunc(res, 400, "failed");
     }
 
-    statusFunc(res, 200, "success");
+    statusFuncWithMessage(res, 200, "success", getData);
 }));
 
 router.post("/saveTheSendData", catchAsync(async (req, res) => {
+    console.log(req.body);
+
     await codeStoreModel.create({
         code: req.body.code,
         text: req.body.text
@@ -29,7 +39,6 @@ router.post("/saveTheSendData", catchAsync(async (req, res) => {
     }).catch(err => {
         statusFunc(res, 400, "failed");
     })
-
 }));
 
 module.exports = router;
