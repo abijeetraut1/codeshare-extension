@@ -14,19 +14,15 @@ mongoose.connect(`mongodb+srv://guymail349:rWuqWVWW3Pvee4vm@codesend.c0tsj4d.mon
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-app.use("*", (req, res) => {
+app.use("*", (req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
 })
 
 app.use("/api/vscodeExtensions/v1/sendandstore", allRouter);
-
-app.use("*", (req, res) => {
-    res.status(400).json({
-        message: "path is not defined yet"
-    })
-})
 
 app.listen(port, () => {
     console.log("server is running at port: "+ port);
