@@ -4,9 +4,8 @@ const catchAsync = require("./../utils/catchAsync");
 
 router.get("/extractSendData", catchAsync(async (req, res) => {
     const getData = await codeStoreModel.findOne({
-        code: 12345400
+        code: req.body.code
     }).select(["-__v", "-_id"]);
-
 
     if (!getData) {
         res.status(200).json({
@@ -18,7 +17,6 @@ router.get("/extractSendData", catchAsync(async (req, res) => {
         status: "success",
         getData
     })
-
 }));
 
 router.post("/saveTheSendData", catchAsync(async (req, res) => {
