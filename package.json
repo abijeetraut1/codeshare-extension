@@ -12,7 +12,8 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [{
+    "commands": [
+      {
         "command": "with-express.sendcode",
         "title": "send code",
         "category": "SendCode"
@@ -21,7 +22,6 @@
         "command": "with-express.recivecode",
         "title": "recive code",
         "category": "SendCode"
-
       }
     ]
   },
@@ -50,6 +50,7 @@
   "dependencies": {
     "axios": "^1.4.0",
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^7.4.3"
   }
 }
