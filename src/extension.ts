@@ -23,20 +23,20 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 			if (sendMethod === "Online") {
 				const sendText = await axios({
 					method: "POST",
-					url:"https://extension-online-database-host.onrender.com/api/vscodeExtensions/v1/sendandstore/saveTheSendData",
+					url: "https://extension-online-database-host.onrender.com/api/vscodeExtensions/v1/sendandstore/saveTheSendData",
 					data: {
 						code: port,
 						text: selectedText
 					}
 				});
 
-				if(sendText.data.status === "success"){
+				if (sendText.data.status === "success") {
 					vscode.window.showInformationMessage(`${port}`);
-				}else{
+				} else {
 					vscode.window.showInformationMessage("🤔 | please check your internet connect! ");
 				}
 
-			} else if(sendMethod === "Offline") {
+			} else if (sendMethod === "Offline") {
 				const server = http.createServer((req, res) => {
 					res.setHeader('Access-Control-Allow-Origin', '*');
 					res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -60,9 +60,9 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 	let onReciveCodes = vscode.commands.registerCommand('with-express.recivecode', async () => {
 
 		const panel = vscode.window.createWebviewPanel(
-			'ReciveCode', // Identifies the type of the webview. Used internally
-			'Recived Code', // Title of the panel displayed to the user
-			vscode.ViewColumn.One, // Editor column to show the new webview panel in.
+			'ReciveCode',
+			'Recived Code',
+			vscode.ViewColumn.One,  // Editor column to show the new webview panel in.
 			{
 				enableScripts: true
 			}
