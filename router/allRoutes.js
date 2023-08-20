@@ -2,21 +2,22 @@ const router = require("express").Router();
 const codeStoreModel = require("./../model/saveCode");
 const catchAsync = require("./../utils/catchAsync");
 
+function statusFunc(res, statusCode, status){
+    res.status(statusCode).json({
+        status: status
+    })
+}
+
 router.get("/extractSendData", catchAsync(async (req, res) => {
     const getData = await codeStoreModel.findOne({
         code: req.body.code
     }).select(["-__v", "-_id"]);
 
     if (!getData) {
-        res.status(200).json({
-            status: "failed"
-        })
+        statusFunc(res, 400, "failed");
     }
 
-    res.status(200).json({
-        status: "success",
-        getData
-    })
+    statusFunc(res, 200, "success");
 }));
 
 router.post("/saveTheSendData", catchAsync(async (req, res) => {
@@ -24,13 +25,9 @@ router.post("/saveTheSendData", catchAsync(async (req, res) => {
         code: req.body.code,
         text: req.body.text
     }).then(() => {
-        res.status(200).json({
-            status: "success",
-        })
+        statusFunc(res, 200, "success");
     }).catch(err => {
-        res.status(200).json({
-            status: "failed",
-        })
+        statusFunc(res, 400, "failed");
     })
 
 }));
