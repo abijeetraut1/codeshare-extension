@@ -118,13 +118,17 @@ function getWebviewContent(script: any, vscodeCss: any) {
 			<h1 id="insert">Insert Code </h1>
 		
 			<input data-vscode-context='{"webviewSection": "editor", "preventDefaultContextMenuItems": true}' type="text" name="code-input" id="get-inserted-code" />
-        	<button id="checkCodeAndProvideCode">Get Code</button>
+        	<select id="select-extraction-method"> 
+				<option selected value="offline"> Offline </option>
+				<option value="online"> Online </option>
+			</select>
+			<button id="checkCodeAndProvideCode">Get Code</button>
 		</div>
 
 		
 		
 		<h1 id="code-display-section"></h1>
-
+		<h2 id="code-displaying-method"></h2>
 		<h3 id="send-code-display-section">Dipslaying Code</h3>
 		
 
