@@ -7,19 +7,36 @@ const ip = '127.155.101.1';
 const min = 1000;
 const max = 9999;
 
-export function activate(context: vscode.ExtensionContext, webview: vscode.Webview, extensionUri: vscode.Uri) {
+export async function activate(context: vscode.ExtensionContext, webview: vscode.Webview, extensionUri: vscode.Uri) {
+
 	let onSendCodes = vscode.commands.registerCommand('with-express.sendcode', async () => {
 		const editor = vscode.window.activeTextEditor;
 		if (editor) {
 			const selection = editor.selection;
 			const selectedText = editor.document.getText(selection);
 
-			vscode.window.showInformationMessage(`Selected Text: ${selectedText}`);
 			const port = Math.floor(Math.random() * (max - min + 1)) + min;
 
 			const sendMethod = await vscode.window.showInformationMessage("Choose method: ", "Online", "Offline");
 
-			
+			// while sending file onine
+			if (sendMethod === "Online") {
+				const sendText = await axios({
+					method: "POST",
+					url:"https://extension-online-database-host.onrender.com/api/vscodeExtensions/v1/sendandstore/saveTheSendData",
+					data: {
+						code: port,
+						text: selectedText
+					}
+				});
+
+				if(sendText.data.status === "success"){
+					vscode.window.showInformationMessage(`${port}`);
+				}else{
+					vscode.window.showInformationMessage("🤔 | please check your internet connect! ");
+				}
+
+			} else if(sendMethod === "Offline") {
 				const server = http.createServer((req, res) => {
 					res.setHeader('Access-Control-Allow-Origin', '*');
 					res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -33,7 +50,7 @@ export function activate(context: vscode.ExtensionContext, webview: vscode.Webvi
 					vscode.window.showInformationMessage(`code : ${port}`);
 					console.log(`Server is running at http://${ip}:${port}/`);
 				});
-			
+			}
 
 		} else {
 			vscode.window.showInformationMessage("please select the text");
@@ -41,6 +58,7 @@ export function activate(context: vscode.ExtensionContext, webview: vscode.Webvi
 	});
 
 	let onReciveCodes = vscode.commands.registerCommand('with-express.recivecode', async () => {
+
 		const panel = vscode.window.createWebviewPanel(
 			'ReciveCode', // Identifies the type of the webview. Used internally
 			'Recived Code', // Title of the panel displayed to the user
