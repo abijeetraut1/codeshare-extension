@@ -14,13 +14,13 @@ mongoose.connect(`mongodb+srv://guymail349:rWuqWVWW3Pvee4vm@codesend.c0tsj4d.mon
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-app.use("/api/vscodeExtensions/v1/sendandstore", allRouter);
-
 app.use("*", (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 })
+
+app.use("/api/vscodeExtensions/v1/sendandstore", allRouter);
 
 app.use("*", (req, res) => {
     res.status(400).json({
