@@ -75,9 +75,6 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 		);
 
 		const onDiskPathGetJs = vscode.Uri.joinPath(context.extensionUri, 'media', 'main.js');
-		const onDiskpathGetvsCodeCss = vscode.Uri.joinPath(context.extensionUri, "media", "vscode.css");
-		const onDiskpathGetMainCss = vscode.Uri.joinPath(context.extensionUri, "media", "main.css");
-		const onDiskpathGetResetCss = vscode.Uri.joinPath(context.extensionUri, "media", "reset.css");
 
 		const script = panel.webview.asWebviewUri(onDiskPathGetJs);
 
