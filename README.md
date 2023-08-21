@@ -29,7 +29,7 @@ The VSCode Data Sender and Receiver Extension is a versatile tool that enables s
 3. Press CTRL + SHIFT + P or COMMAND + SHIFT + P
 4. Copy The 4 digit generated code and send that code to friend.
 
-## Receiving Data
+# Receiving Data
 
 1. Press CTRL + SHIFT + P or COMMAND + SHIFT + P
 2. Enter the Code and Choose the send method.
