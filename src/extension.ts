@@ -58,13 +58,6 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 	});
 
 	let onReciveCodes = vscode.commands.registerCommand('sendcode.recive', async () => {
-
-		const tokenColorCustomizations = vscode.workspace.getConfiguration("editor.tokenColorCustomizations");
-		const variableColor = tokenColorCustomizations["textMateRules"];
-
-		console.log("Variable font color:", variableColor);
-
-
 		const panel = vscode.window.createWebviewPanel(
 			'ReciveCode',
 			'Recived Code',
