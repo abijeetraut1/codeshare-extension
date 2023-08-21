@@ -1,8 +1,14 @@
 {
   "name": "with-express",
   "displayName": "with-express",
+  "publisher": "AbijeetRaut",
   "description": "",
+  "icon": "media/codeshare.png"
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abijeetraut1/codeshare-extension.git"
+  },
   "engines": {
     "vscode": "^1.81.0"
   },

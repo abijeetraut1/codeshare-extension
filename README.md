@@ -1,71 +1,32 @@
-# with-express README
+# VSCode Data Sender and Receiver Extension
 
-This is the README for your extension "with-express". After writing up a brief description, we recommend including the following sections.
+The VSCode Data Sender and Receiver Extension is a versatile tool that enables seamless data communication between two instances of Visual Studio Code – one acting as the sender and the other as the receiver. This extension can work both over the internet and in offline scenarios, making it a powerful tool for collaborating and sharing data across different environments.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Data Sending:** Send various types of data, such as text snippets, and code, from one instance of VSCode to another vscode.
+- **Data Receiving:** Receive data sent from another instance of VSCode, maintaining the integrity of the original content.
+- **Internet and Offline Modes:** This extension supports both internet-based communication and direct offline communication through local networks.
+- **Secure Communication:** Data transmission is secured through encryption, ensuring that sensitive information remains protected.
+- **Easy-to-Use Interface:** The extension integrates seamlessly into the VSCode user interface, providing a user-friendly experience.
 
-For example if there is an image subfolder under your extension project workspace:
+## Usage
 
-\!\[feature X\]\(images/feature-x.png\)
+### Sending Data
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+1. Open the file, select the portion of code you want to send in the source instance of VSCode.
+2. Press CTRL + SHIFT + P or COMMAND + SHIFT + P
+3. Select the method "ONLINE" or "OFFLINE".
+## Offline Data
+1. make sure both devices should be connected with same hotspot wifi 
 
-## Requirements
+4. If connected to the internet, and you are far from the reciver friend you can choose to send the data over the internet "ONLINE". If not, select the local network option for offline communication.
+5. Copy The 4 digit generated code and send that code to friend.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
 
-## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### Receiving Data
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+1. Press CTRL + SHIFT + P or COMMAND + SHIFT + P
+2. Enter the Code and Choose the send method.
+4. Received data will be placed in a the same workspace.
