@@ -9,7 +9,7 @@ const max = 9999;
 
 export async function activate(context: vscode.ExtensionContext, webview: vscode.Webview, extensionUri: vscode.Uri) {
 	
-	let onSendCodes = vscode.commands.registerCommand('with-express.send', async () => {
+	let onSendCodes = vscode.commands.registerCommand('sendcode.send', async () => {
 		const editor = vscode.window.activeTextEditor;
 		if (editor) {
 			const selection = editor.selection;
@@ -157,7 +157,6 @@ function getWebviewContent(script: any) {
 		<h2 id="code-displaying-method"></h2>
 		<h3 id="send-code-display-section"></h3>
 		
-
 		<script nonce="${nonce}" src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script nonce="${nonce}" src="${script}"></script>
 	</body>
