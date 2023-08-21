@@ -1,6 +1,6 @@
 {
-  "name": "codeshare",
-  "displayName": "codeshare",
+  "name": "sendcode",
+  "displayName": "sendcode",
   "publisher": "AbijeetRaut",
   "description": "",
   "icon": "media/codeshare.png",
@@ -20,12 +20,12 @@
   "contributes": {
     "commands": [
       {
-        "command": "with-express.sendcode",
+        "command": "sendcode.send",
         "title": "send code",
         "category": "SendCode"
       },
       {
-        "command": "with-express.recivecode",
+        "command": "sendcode.recive",
         "title": "recive code",
         "category": "SendCode"
       }

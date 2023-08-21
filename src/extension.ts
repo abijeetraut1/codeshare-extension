@@ -9,7 +9,7 @@ const max = 9999;
 
 export async function activate(context: vscode.ExtensionContext, webview: vscode.Webview, extensionUri: vscode.Uri) {
 	
-	let onSendCodes = vscode.commands.registerCommand('with-express.sendcode', async () => {
+	let onSendCodes = vscode.commands.registerCommand('with-express.send', async () => {
 		const editor = vscode.window.activeTextEditor;
 		if (editor) {
 			const selection = editor.selection;
@@ -57,7 +57,7 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 		}
 	});
 
-	let onReciveCodes = vscode.commands.registerCommand('with-express.recivecode', async () => {
+	let onReciveCodes = vscode.commands.registerCommand('sendcode.recive', async () => {
 
 		const tokenColorCustomizations = vscode.workspace.getConfiguration("editor.tokenColorCustomizations");
 		const variableColor = tokenColorCustomizations["textMateRules"];
