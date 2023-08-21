@@ -14,7 +14,7 @@ The VSCode Data Sender and Receiver Extension is a versatile tool that enables s
 
 ### Sending Data
 
-## Online 
+## Online Method
 
 1. Open the file, select the portion of code you want to send in the source instance of VSCode.
 2. Press CTRL + SHIFT + P or COMMAND + SHIFT + P
