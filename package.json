@@ -22,7 +22,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "sendcode.send",
+        "command": "sendcode.sendit",
         "title": "send code",
         "category": "sendcode"
       },

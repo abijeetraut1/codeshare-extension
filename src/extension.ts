@@ -9,7 +9,7 @@ const max = 9999;
 
 export async function activate(context: vscode.ExtensionContext, webview: vscode.Webview, extensionUri: vscode.Uri) {
 	
-	let onSendCodes = vscode.commands.registerCommand('sendcode.send', async () => {
+	let onSendCodes = vscode.commands.registerCommand('sendcode.sendit', async () => {
 		const editor = vscode.window.activeTextEditor;
 		if (editor) {
 			const selection = editor.selection;
