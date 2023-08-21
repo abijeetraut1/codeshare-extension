@@ -17,8 +17,8 @@ The VSCode Data Sender and Receiver Extension is a versatile tool that enables s
 1. Open the file, select the portion of code you want to send in the source instance of VSCode.
 2. Press CTRL + SHIFT + P or COMMAND + SHIFT + P
 3. Select the method "ONLINE" or "OFFLINE".
-## Offline Data
-1. make sure both devices should be connected with same hotspot wifi 
+    ## Offline Data
+    1. make sure both devices should be connected with same hotspot wifi 
 
 4. If connected to the internet, and you are far from the reciver friend you can choose to send the data over the internet "ONLINE". If not, select the local network option for offline communication.
 5. Copy The 4 digit generated code and send that code to friend.

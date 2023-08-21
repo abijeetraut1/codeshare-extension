@@ -1,10 +1,10 @@
 {
-  "name": "with-express",
-  "displayName": "with-express",
+  "name": "codeshare",
+  "displayName": "codeshare",
   "publisher": "AbijeetRaut",
   "description": "",
-  "icon": "media/codeshare.png"
-  "version": "0.0.1",
+  "icon": "media/codeshare.png",
+  "version": "1.1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/abijeetraut1/codeshare-extension.git"
