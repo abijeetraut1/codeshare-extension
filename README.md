@@ -1,4 +1,4 @@
-# VSCode Data Sender and Receiver Extension
+# VSCode Code Sender and Receiver Extension
 
 The VSCode Data Sender and Receiver Extension is a versatile tool that enables seamless data communication between two instances of Visual Studio Code – one acting as the sender and the other as the receiver. This extension can work both over the internet and in offline scenarios, making it a powerful tool for collaborating and sharing data across different environments.
 
