@@ -59,6 +59,12 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 
 	let onReciveCodes = vscode.commands.registerCommand('with-express.recivecode', async () => {
 
+		const tokenColorCustomizations = vscode.workspace.getConfiguration("editor.tokenColorCustomizations");
+		const variableColor = tokenColorCustomizations["textMateRules"];
+
+		console.log("Variable font color:", variableColor);
+
+
 		const panel = vscode.window.createWebviewPanel(
 			'ReciveCode',
 			'Recived Code',
@@ -69,19 +75,20 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 		);
 
 		const onDiskPathGetJs = vscode.Uri.joinPath(context.extensionUri, 'media', 'main.js');
-		const onDiskpathGetCss = vscode.Uri.joinPath(context.extensionUri, "media", "vscode.css");
+		const onDiskpathGetvsCodeCss = vscode.Uri.joinPath(context.extensionUri, "media", "vscode.css");
+		const onDiskpathGetMainCss = vscode.Uri.joinPath(context.extensionUri, "media", "main.css");
+		const onDiskpathGetResetCss = vscode.Uri.joinPath(context.extensionUri, "media", "reset.css");
 
 		const script = panel.webview.asWebviewUri(onDiskPathGetJs);
-		const vscodeCss = panel.webview.asWebviewUri(onDiskpathGetCss);
 
-		panel.webview.html = getWebviewContent(script, vscodeCss);
+		panel.webview.html = getWebviewContent(script);
 	});
 
 	context.subscriptions.push(onSendCodes);
 	context.subscriptions.push(onReciveCodes);
 }
 
-function getWebviewContent(script: any, vscodeCss: any) {
+function getWebviewContent(script: any) {
 
 	const nonce = getNonce();
 	return `<!DOCTYPE html>
@@ -91,45 +98,67 @@ function getWebviewContent(script: any, vscodeCss: any) {
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Document</title>
-		<link rel="stylesheet" ref=${vscodeCss}>
+		
 		<style>
-			#get-code {
-				width: 90%;
-			}
+		.form-container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+        }
 
-			#getCode {
-				width: 10%;
-			}
+        .form-container *{
+            margin: .5rem .2rem;
+			background-color: #3C3C3C;
+			border-color: transparent;
+			border-radius: 3px;
+			outline: #3794FF;
+        }
+		
+        .form-container input{
+            width: 80%;
+            height: 2rem;
+            font-size: 1.3rem;
+			color: #A6A6A6;
+        }
 
-			.input-container {
-				display: flex;
-				justify-content: center;
-			}
+		#send-code-display-section{
+			color: #A6A6A6;
+		}
 
-			.code-display-section{
-				border: 2px solid darkblue;
-				padding: 1em;
-			}
+        .form-container select, button{
+			font-size: .9rem;
+			font-weight: 100;
+			color: #3794FF;
+			padding: 0 .6rem;
+        }
+
+        /* for arrow button */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
     </style>
 	</head>
 	
 	<body>
 		<div class="main" data-vscode-context='{"webviewSection": "main", "mouseCount": 4}'>
-			<h1 id="insert">Insert Code </h1>
-		
-			<input data-vscode-context='{"webviewSection": "editor", "preventDefaultContextMenuItems": true}' type="text" name="code-input" id="get-inserted-code" />
-        	<select id="select-extraction-method"> 
-				<option selected value="offline"> Offline </option>
-				<option value="online"> Online </option>
-			</select>
-			<button id="checkCodeAndProvideCode">Get Code</button>
+			<h1 id="insert" style="color: #3794FF;">Insert Code To Recive Codes: </h1>
+
+			<div class="form-container">
+				<input data-vscode-context='{"webviewSection": "editor", "preventDefaultContextMenuItems": true}'
+					type="number" name="code-input" id="get-inserted-code" />
+
+				<select id="select-extraction-method">
+					<option selected value="offline"> Offline </option>
+					<option value="online"> Online </option>
+				</select>
+				<button id="checkCodeAndProvideCode" style="background-color: #0E639C; color: #fff;">Get Code</button>
+			</div>
 		</div>
 
-		
-		
 		<h1 id="code-display-section"></h1>
 		<h2 id="code-displaying-method"></h2>
-		<h3 id="send-code-display-section">Dipslaying Code</h3>
+		<h3 id="send-code-display-section"></h3>
 		
 
 		<script nonce="${nonce}" src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

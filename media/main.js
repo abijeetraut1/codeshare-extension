@@ -3,8 +3,8 @@ document.getElementById('checkCodeAndProvideCode').addEventListener('click', asy
     const selectCodeExtractionMethod = document.getElementById("select-extraction-method").value;
     
     const getInsertedCode = document.getElementById("get-inserted-code").value;
-    getCode.innerText = getInsertedCode === '' || getInsertedCode === ' ' ? "Please Insert Valid Code" : `Inserted Code: ${getInsertedCode}`;
-    document.getElementById("code-displaying-method").innerText = `Code Recive Method : ${selectCodeExtractionMethod.toUpperCase()} `;
+    getCode.innerHTML = getInsertedCode === '' || getInsertedCode === ' ' ? "Please Insert Valid Code" : `Inserted Code: <span style="color: #3794FF; "> ${getInsertedCode} </span>`;
+    document.getElementById("code-displaying-method").innerHTML = `Code Recive Method : <span style="color: #3794FF;"> ${selectCodeExtractionMethod.toUpperCase()} </span>`;
     
     try {
         if (selectCodeExtractionMethod === "offline") {
@@ -30,6 +30,6 @@ document.getElementById('checkCodeAndProvideCode').addEventListener('click', asy
             }
         }
     } catch (err) {
-        document.getElementById("send-code-display-section").innerText = "🤔 | Cannot Find Data With That Code : " + getInsertedCode;
+        document.getElementById("send-code-display-section").innerHTML = `<span style="color: #d4d4d4;">🤔 | Cannot Find Data With That Code : <span style="color: #3794FF;"> ${getInsertedCode} </span> </span>` ;
     }
 });
