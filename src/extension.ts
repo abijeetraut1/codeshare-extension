@@ -1,14 +1,16 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
-import path = require('path');
 import * as http from "http";
-const ip = '127.155.101.1';
 const min = 1000;
 const max = 9999;
 
+// testing offline mode
+import { networkInterfaces } from 'os';
+const interfaces = networkInterfaces();
+import * as express from "express";
 
 export async function activate(context: vscode.ExtensionContext, webview: vscode.Webview, extensionUri: vscode.Uri) {
-	
+
 	let onSendCodes = vscode.commands.registerCommand('sendcode.sendit', async () => {
 		const editor = vscode.window.activeTextEditor;
 		if (editor) {
@@ -16,7 +18,6 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 			const selectedText = editor.document.getText(selection);
 
 			const port = Math.floor(Math.random() * (max - min + 1)) + min;
-
 			const sendMethod = await vscode.window.showInformationMessage("Choose method: ", "Online", "Offline");
 
 			// while sending file onine
@@ -37,19 +38,30 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 				}
 
 			} else if (sendMethod === "Offline") {
-				const server = http.createServer((req, res) => {
-					res.setHeader('Access-Control-Allow-Origin', '*');
-					res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-					res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+				const app = express();
 
-					res.writeHead(200);
-					res.end(selectedText);
+				const port = Math.floor(Math.random() * (max - min + 1)) + min;
+
+				interfaces.WiFi?.forEach(el => {
+					if (el.family === "IPv4") {
+						app.use((req, res, next) => {
+							res.header('Access-Control-Allow-Origin', '*'); // Change to your desired origin
+							res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+							next();
+						});
+
+						app.use("/vscode/sendcode/data", (req, res) => {
+							res.writeHead(200);
+							res.end(selectedText);
+						});
+
+						app.listen(port, el.address, () => {
+							vscode.window.showInformationMessage(`${el.address}:${port}`);
+							console.log("hosted at pot" + port);
+						});
+					}
 				});
 
-				server.listen(port, ip, () => {
-					vscode.window.showInformationMessage(`code : ${port}`);
-					console.log(`Server is running at http://${ip}:${port}/`);
-				});
 			}
 
 		} else {
@@ -136,7 +148,7 @@ function getWebviewContent(script: any) {
 
 			<div class="form-container">
 				<input data-vscode-context='{"webviewSection": "editor", "preventDefaultContextMenuItems": true}'
-					type="number" name="code-input" id="get-inserted-code" />
+					type="text" name="code-input" id="get-inserted-code" />
 
 				<select id="select-extraction-method">
 					<option selected value="offline"> Offline </option>
@@ -149,7 +161,9 @@ function getWebviewContent(script: any) {
 		<h1 id="code-display-section"></h1>
 		<h2 id="code-displaying-method"></h2>
 		<h3 id="send-code-display-section"></h3>
-		
+
+
+		<script type="module"> import dgram from https://cdn.jsdelivr.net/npm/dgram@1.0.1/+esm </script>
 		<script nonce="${nonce}" src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script nonce="${nonce}" src="${script}"></script>
 	</body>
