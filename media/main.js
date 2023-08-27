@@ -61,7 +61,7 @@ document.getElementById('checkCodeAndProvideCode').addEventListener('click', asy
                 }
             }
 
-        }else if (selectCodeExtractionMethod === "online") {
+        } else if (selectCodeExtractionMethod === "online") {
             const sendData = await axios({
                 method: "GET",
                 url: `https://extension-online-database-host.onrender.com/api/vscodeExtensions/v1/sendandstore/extractSendData/${getInsertedCode}`,
