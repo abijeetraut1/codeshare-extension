@@ -9,13 +9,59 @@ document.getElementById('checkCodeAndProvideCode').addEventListener('click', asy
 
     try {
         if (selectCodeExtractionMethod === "offline") {
-            const sendData = await axios.get(`http://${getInsertedCode}/vscode/sendcode/data`);
-            if (!sendData) {
-                document.getElementById("send-code-display-section").innerText = "Failed To Extract Data! Please Connect Both Device with the same internet";
-            } else {
-                document.getElementById("send-code-display-section").innerText = sendData.data;
+            const firstIpAddressLetter = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"];
+            const secondIpAddressLetter = ["N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
+            const enteredHashedCode = getInsertedCode;
+
+            for (let i = 0; i < firstIpAddressLetter.length; i++) {
+                let splitPort = enteredHashedCode.split(firstIpAddressLetter[i]);
+                console.log(splitPort);
+
+                if (splitPort.length === 2) {
+                    if (splitPort[1]) {
+                        for (let j = 0; j < secondIpAddressLetter.length; j++) {
+                            let secondSplit = splitPort[1].split(secondIpAddressLetter[j]);
+                            if (secondSplit.length === 2) {
+
+                                // seprate and arrange the code
+
+                                // port 
+                                // eslint-disable-next-line @typescript-eslint/naming-convention
+                                let Pfirst, Psecond, Pthird, Pfourth;
+                                if (splitPort[0]) {
+                                    Pfirst = Math.floor((splitPort[0] * 1) / 1000);
+                                    Psecond = Math.floor((splitPort[0] * 1) / 100) % 10;
+                                    Pfourth = Math.floor((splitPort[0] * 1) % 10);
+                                    Pthird = Math.floor(((splitPort[0] * 1) % 100 - (Pfourth)) / 10);
+                                }
+
+                                // eslint-disable-next-line @typescript-eslint/naming-convention
+                                // 217
+                                if (secondSplit[0] > 100) {
+                                    Ifirst = Math.floor((secondSplit[0] * 1) / 100);
+                                    Isecond = ((secondSplit[0] * 1) % 10);
+                                    Ithird = (((secondSplit[0] * 1) % 100) - Isecond) / 10;
+                                }
+
+                                // arrange
+                                const arrangedIp = `192.168.${secondSplit[1]}.${Ithird}${Isecond}${Ifirst}:${Psecond}${Pfourth}${Pfirst}${Pthird}`;
+                                console.log(arrangedIp);
+                                const sendData = await axios.get(`http://${arrangedIp}/vscode/sendcode/data`);
+                                if (!sendData) {
+                                    document.getElementById("send-code-display-section").innerText = "Failed To Extract Data! Please Connect Both Device with the same internet";
+                                    break;
+                                } else {
+                                    document.getElementById("send-code-display-section").innerText = sendData.data;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
-        } else if (selectCodeExtractionMethod === "online") {
+
+        }else if (selectCodeExtractionMethod === "online") {
             const sendData = await axios({
                 method: "GET",
                 url: `https://extension-online-database-host.onrender.com/api/vscodeExtensions/v1/sendandstore/extractSendData/${getInsertedCode}`,

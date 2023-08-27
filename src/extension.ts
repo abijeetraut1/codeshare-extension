@@ -1,12 +1,15 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
 import * as http from "http";
+import * as fs from "fs";
 const min = 1000;
 const max = 9999;
 
 // testing offline mode
-import { networkInterfaces } from 'os';
-const interfaces = networkInterfaces();
+const {
+	networkInterfaces
+} = require("os");
+
 import * as express from "express";
 
 export async function activate(context: vscode.ExtensionContext, webview: vscode.Webview, extensionUri: vscode.Uri) {
@@ -40,10 +43,47 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 			} else if (sendMethod === "Offline") {
 				const app = express();
 
-				const port = Math.floor(Math.random() * (max - min + 1)) + min;
-
-				interfaces.WiFi?.forEach(el => {
+				networkInterfaces().WiFi.forEach((el: any) => {
 					if (el.family === "IPv4") {
+						const min = 1000;
+						const max = 9999;
+						let randomPort = Math.floor(Math.random() * (max - min + 1)) + min;
+
+						let ip = el.address;
+
+						
+
+
+						// encryption
+						let newip = ip.split(".");
+						const firstIpAddressLetter = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"];
+						const secondIpAddressLetter = ["N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
+						const chooseTextFirst = Math.floor(Math.random() * firstIpAddressLetter.length);
+						const chooseTextSecond = Math.floor(Math.random() * secondIpAddressLetter.length);
+
+						// eslint-disable-next-line @typescript-eslint/naming-convention
+						let Ifirst, Isecond, Ithird;
+						// for 3 digit
+						if (newip[3] > 100) {
+							Ifirst = Math.floor((newip[3] * 1) / 100);
+							Isecond = ((newip[3] * 1) % 10);
+							Ithird = (((newip[3] * 1) % 100) - Isecond) / 10;
+						}
+
+						// eslint-disable-next-line @typescript-eslint/naming-convention
+						let Pfirst, Psecond, Pthird, Pfourth;
+						// for 4 digit
+						if (randomPort) {
+							Pfirst = Math.floor((randomPort * 1) / 1000);
+							Psecond = Math.floor((randomPort * 1) / 100) % 10;
+							Pfourth = Math.floor((randomPort * 1) % 10);
+							Pthird = Math.floor(((randomPort * 1) % 100 - (Pfourth)) / 10);
+						}
+
+						// portA217B1
+						let finalEncode = `${Pthird}${Pfirst}${Pfourth}${Psecond}${firstIpAddressLetter[chooseTextFirst]}${Isecond}${Ifirst}${Ithird}${secondIpAddressLetter[chooseTextSecond]}${newip[2]}`;
+						
 						app.use((req, res, next) => {
 							res.header('Access-Control-Allow-Origin', '*'); // Change to your desired origin
 							res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -55,13 +95,11 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 							res.end(selectedText);
 						});
 
-						app.listen(port, el.address, () => {
-							vscode.window.showInformationMessage(`${el.address}:${port}`);
-							console.log("hosted at pot" + port);
+						app.listen(randomPort, () => {
+							vscode.window.showInformationMessage(`${finalEncode}`);
 						});
 					}
 				});
-
 			}
 
 		} else {
@@ -80,6 +118,8 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 		);
 
 		const onDiskPathGetJs = vscode.Uri.joinPath(context.extensionUri, 'media', 'main.js');
+
+
 		const script = panel.webview.asWebviewUri(onDiskPathGetJs);
 
 		panel.webview.html = getWebviewContent(script);
@@ -183,3 +223,5 @@ function getNonce() {
 	}
 	return text;
 }
+
+
