@@ -193,8 +193,8 @@ function getWebviewContent(script: any) {
 					type="text" name="code-input" id="get-inserted-code" />
 
 				<select id="select-extraction-method">
-					<option selected value="offline"> Offline </option>
-					<option value="online"> Online </option>
+					<option value="offline"> Offline </option>
+					<option value="online" selected> Online </option>
 				</select>
 				<button id="checkCodeAndProvideCode" style="background-color: #0E639C; color: #fff;">Get Code</button>
 			</div>
