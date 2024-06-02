@@ -120,11 +120,13 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 		);
 
 		const onDiskPathGetJs = vscode.Uri.joinPath(context.extensionUri, 'media', 'main.js');
+		const onDiskPathGetAxios = vscode.Uri.joinPath(context.extensionUri, 'media', 'plugin/axios.js');
 
 
 		const script = panel.webview.asWebviewUri(onDiskPathGetJs);
+		const axios = panel.webview.asWebviewUri(onDiskPathGetAxios);
 
-		panel.webview.html = getWebviewContent(script);
+		panel.webview.html = getWebviewContent(script, axios);
 	});
 
 	context.subscriptions.push(onSendCodes);
@@ -132,7 +134,7 @@ export async function activate(context: vscode.ExtensionContext, webview: vscode
 }
 
 
-function getWebviewContent(script: any) {
+function getWebviewContent(script: any, axios: any) {
 
 	const nonce = getNonce();
 	return `<!DOCTYPE html>
@@ -206,7 +208,7 @@ function getWebviewContent(script: any) {
 
 
 		<script type="module"> import dgram from https://cdn.jsdelivr.net/npm/dgram@1.0.1/+esm </script>
-		<script nonce="${nonce}" src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script nonce="${nonce}" src="${axios}"></script>
 		<script nonce="${nonce}" src="${script}"></script>
 	</body>
 	
